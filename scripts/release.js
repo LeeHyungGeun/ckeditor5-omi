@@ -115,7 +115,7 @@ cli.provideToken()
 		// Create a release on GitHub.
 		return createGithubRelease( token, {
 			repositoryOwner: 'ckeditor',
-			repositoryName: 'ckeditor5-react',
+			repositoryName: 'ckeditor5-omi',
 			version: `v${ changelogVersion }`,
 			description: releaseDescription
 		} ).then( () => changelogVersion );
@@ -126,7 +126,7 @@ cli.provideToken()
 		// Restore the template `package.json` to state before the publishing process.
 		tools.updateJSONFile( packageJsonTemplatePath, () => packageJsonTemplateCopy );
 
-		const url = `https://github.com/ckeditor/ckeditor5-react/releases/tag/v${ version }`;
+		const url = `https://github.com/leehyunggeun/ckeditor5-omi/releases/tag/v${ version }`;
 		log.info( `Created the release: ${ url }` );
 	} )
 	.catch( err => {
