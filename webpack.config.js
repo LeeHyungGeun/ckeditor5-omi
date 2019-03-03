@@ -18,15 +18,15 @@ module.exports = {
 	devtool: 'source-map',
 	performance: { hints: false },
 	externals: {
-		react: {
-			root: 'React',
-			commonjs2: 'react',
-			commonjs: 'react',
-			amd: 'react'
+		omi: {
+			root: 'omi',
+			commonjs2: 'omi',
+			commonjs: 'omi',
+			amd: 'omi'
 		}
 	},
 
-	entry: path.join( __dirname, 'src', 'ckeditor.jsx' ),
+	entry: path.join( __dirname, 'src', 'ckeditor.js' ),
 
 	output: {
 		library: 'CKEditor',
@@ -62,12 +62,33 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.jsx$/,
+				test: /\.js$/,
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
 					compact: false,
-					presets: [ 'env', 'react' ]
+					presets: [ 
+						'@babel/preset-env', 
+						[
+							"@babel/preset-react",
+							{
+								"pragma": "Omi.h"
+							}
+						] 
+					],
+					plugins: [
+						"@babel/plugin-proposal-class-properties",
+						"@babel/transform-runtime",
+						[
+							"@babel/plugin-proposal-decorators",
+							{
+								"legacy": true
+							}
+						],
+						"@babel/plugin-proposal-function-bind",
+						"@babel/plugin-proposal-object-rest-spread",
+						"@babel/plugin-syntax-dynamic-import"
+					]
 				}
 			}
 		]
