@@ -20,7 +20,7 @@ define('ckeditor-element', class extends WeElement {
 
   // Initialize the editor when the component ismounted.
   installed() {
-  this._initializeEditor()
+    this._initializeEditor()
   }
 
   // Destory the editor before unmounting the component.
