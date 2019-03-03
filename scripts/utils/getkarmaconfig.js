@@ -21,11 +21,33 @@ module.exports = function getKarmaConfig() {
 		module: {
 			rules: [
 				{
-					test: /\.jsx$/,
+					test: /\.js$/,
 					loader: 'babel-loader',
+					exclude: /node_modules/,
 					query: {
 						compact: false,
-						presets: [ 'react', 'env' ]
+						presets: [ 
+							'@babel/preset-env', 
+							[
+								"@babel/preset-react",
+								{
+									"pragma": "Omi.h"
+								}
+							] 
+						],
+						plugins: [
+							"@babel/plugin-proposal-class-properties",
+							"@babel/transform-runtime",
+							[
+								"@babel/plugin-proposal-decorators",
+								{
+									"legacy": true
+								}
+							],
+							"@babel/plugin-proposal-function-bind",
+							"@babel/plugin-proposal-object-rest-spread",
+							"@babel/plugin-syntax-dynamic-import"
+						]
 					}
 				}
 			]
@@ -38,11 +60,11 @@ module.exports = function getKarmaConfig() {
 		frameworks: [ 'mocha', 'chai', 'sinon' ],
 
 		files: [
-			'tests/**/*.jsx'
+			'tests/**/*.js'
 		],
 
 		preprocessors: {
-			'tests/**/*.jsx': [ 'webpack' ]
+			'tests/**/*.js': [ 'webpack' ]
 		},
 
 		webpack: webpackConfig,
@@ -139,7 +161,7 @@ module.exports = function getKarmaConfig() {
 		};
 
 		webpackConfig.module.rules.push( {
-			test: /\.jsx$/,
+			test: /\.js$/,
 			loader: 'istanbul-instrumenter-loader',
 			include: /src/,
 			exclude: [
@@ -152,7 +174,7 @@ module.exports = function getKarmaConfig() {
 	}
 
 	if ( options.sourceMap ) {
-		karmaConfig.preprocessors[ 'tests/**/*.jsx' ].push( 'sourcemap' );
+		karmaConfig.preprocessors[ 'tests/**/*.js' ].push( 'sourcemap' );
 
 		webpackConfig.devtool = 'inline-source-map';
 	}
