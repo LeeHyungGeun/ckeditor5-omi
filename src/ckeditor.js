@@ -5,7 +5,7 @@
 
 import { define, WeElement } from 'omi'
 
-define('ckeditor-element', class extends WeElement {
+!customElements.get('ckeditor-element') && define('ckeditor-element', class extends WeElement {
   install( props ) {
   // After mounting the editor, the variable will contain a reference to the created editor.
   // @see: https://ckeditor.com/docs/ckeditor5/latest/api/module_core_editor_editor-Editor.html
