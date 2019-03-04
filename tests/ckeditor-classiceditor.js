@@ -21,25 +21,25 @@ describe( 'CKEditor Component + ClassicEditor Build', () => {
   let wrapper
 
   before(() => {
-    wrapper = document.createElement('div');
-    (document.body || document.documentElement).appendChild(wrapper)
+    scratch = document.createElement('div');
+    (document.body || document.documentElement).appendChild(scratch)
   })
 
   beforeEach(() => {
-    wrapper.innerHTML = ''
+    scratch.innerHTML = ''
   })
 
   after(() => {
-    wrapper.parentNode.removeChild(wrapper)
-    wrapper = null
+    scratch.parentNode.removeChild(scratch)
+    scratch = null
   })
 
   it( 'should initialize the ClassicEditor properly', done => {
-    render(<ckeditor-element editor={ ClassicEditor } />, wrapper)
+    render(<ckeditor-element editor={ ClassicEditor } />, scratch)
 
     setTimeout(() => {
 
-      let node = wrapper.childNodes
+      let node = scratch.childNodes
       expect( node.editor ).to.not.be.null
 
       done()
