@@ -70,12 +70,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/leehyunggeun/ckeditor5-omi.git"
+    "url": "https://github.com/LeeHyungGeun/ckeditor5-omi.git"
   },
   "author": "CKSource (http://cksource.com/)",
   "license": "GPL-2.0-or-later",
   "bugs": {
-    "url": "https://github.com/leehyunggeun/ckeditor5-omi/issues"
+    "url": "https://github.com/LeeHyungGeun/ckeditor5-omi/issues"
   },
-  "homepage": "https://github.com/leehyunggeun/ckeditor5-omi"
+  "homepage": "https://github.com/LeeHyungGeun/ckeditor5-omi"
 }
