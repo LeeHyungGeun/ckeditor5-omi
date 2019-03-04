@@ -34,7 +34,7 @@ class Editor {
 }
 
 describe( 'CKEditor Component', () => {
-  let sandbox, wrapper, scratch, vm
+  let sandbox, wrapper, scratch
 
   before(() => {
     scratch = document.createElement('div');
@@ -55,8 +55,8 @@ describe( 'CKEditor Component', () => {
   })
 
   after(() => {
-    if (wrapper && wrapper.parentNode) {
-      wrapper.parentNode.removeChild(wrapper)
+    if (scratch && scratch.parentNode) {
+      scratch.parentNode.removeChild(scratch)
     }
     scratch = null
   })
