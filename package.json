@@ -1,7 +1,7 @@
 {
   "name": "ckeditor5-omi",
   "version": "0.0.1",
-  "main": "dist/ckeditor.js",
+  "main": "src/ckeditor.js",
   "description": "Official Omi component for CKEditor 5 – the best browser-based rich text editor.",
   "keywords": [
     "wysiwyg",
