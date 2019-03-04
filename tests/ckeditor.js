@@ -6,10 +6,6 @@
 import { render } from 'omi'
 import '../src/ckeditor' // CKEditor element of omi
 
-import MockEditor from './_utils/mockeditor'
-import { ModelDocument, ViewDocument } from './_utils/mockeditor'
-
-
 // Mock of data model's document.
 const modelDocument = {
 	on() {}
