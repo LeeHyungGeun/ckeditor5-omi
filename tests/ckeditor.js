@@ -48,6 +48,7 @@ describe( 'CKEditor Component', () => {
   beforeEach(() => {
     scratch.innerHTML = ''
     sandbox = sinon.createSandbox()
+    sandbox.stub( modelDocument, 'on' )
   })
 
   afterEach(() => {
@@ -167,6 +168,159 @@ describe( 'CKEditor Component', () => {
       expect( editorInstance.setData.calledOnce ).to.be.false
 
       done()
+    })
+  })
+
+  it( 'does not set editor\'s data if the editor is not ready', () => {
+    const editorInstance = new Editor()
+
+    sandbox.stub( Editor, 'create' ).resolves( editorInstance )
+    sandbox.stub( editorInstance, 'setData' )
+
+    wrapper = render(<ckeditor-element editor={ Editor } />, scratch)
+
+    wrapper.updated( { data: 'Foo' } )
+
+    expect( wrapper.editor ).to.be.null
+    expect( editorInstance.setData.called ).to.be.false
+  })
+
+  it( 'calls "onInit" callback if specified when the editor is ready to use', done => {
+    const editorInstance = new Editor()
+    const onInit = sandbox.spy()
+
+    sandbox.stub( Editor, 'create' ).resolves( editorInstance )
+
+    wrapper = render(<ckeditor-element editor={ Editor } onInit={ onInit } />, scratch)
+
+    setTimeout(() => {
+      expect( onInit.calledOnce ).to.be.true
+      expect( onInit.firstCall.args[ 0 ] ).to.equal( editorInstance )
+
+      done()
+    })
+  })
+
+  it( 'listens to the editor\'s changes in order to call "onChange" callback', done => {
+    const editorInstance = new Editor()
+
+    sandbox.stub( Editor, 'create' ).resolves( editorInstance )
+		sandbox.stub( editorInstance, 'getData' ).returns( '<p>Foo.</p>' )
+
+    wrapper = render(<ckeditor-element editor={ Editor } />, scratch)
+
+    setTimeout(() => {
+      expect( modelDocument.on.calledOnce ).to.be.true
+      expect( modelDocument.on.firstCall.args[ 0 ] ).to.equal( 'change:data' )
+      expect( modelDocument.on.firstCall.args[ 1 ] ).to.be.a( 'function' )
+      
+      done()
+    })
+  })
+
+  it( 'executes "onChange" callback if specified and editor has changed', done => {
+    const onChange = sandbox.spy()
+    const editorInstance = new Editor()
+
+    sandbox.stub( Editor, 'create' ).resolves( editorInstance )
+
+    wrapper = render(<ckeditor-element editor={ Editor } onChange={ onChange } />, scratch)
+
+    setTimeout(() => {
+      const firstChanges = modelDocument.on.firstCall.args[ 1 ]
+      const event = { name: 'change:data' }
+
+      firstChanges( event )
+
+      expect( onChange.calledOnce ).to.equal( true )
+      expect( onChange.firstCall.args[ 0 ] ).to.equal( event )
+      expect( onChange.firstCall.args[ 1 ] ).to.equal( editorInstance )
+
+      done()
+    })
+  })
+
+  it( 'executes "onChange" callback if it is available in runtime when the editor\'s data has changed', done => {
+    const onChange = sandbox.spy()
+    const editorInstance = new Editor()
+
+    sandbox.stub( Editor, 'create' ).resolves( editorInstance )
+
+    wrapper = render(<ckeditor-element editor={ Editor } />, scratch)
+
+    setTimeout(() => {
+      wrapper.props.onChange = onChange
+
+      const firstChanges = modelDocument.on.firstCall.args[ 1 ]
+      const event = { name: 'change:data' }
+
+      firstChanges( event )
+
+      expect( onChange.calledOnce ).to.equal( true )
+      expect( onChange.firstCall.args[ 0 ] ).to.equal( event )
+      expect( onChange.firstCall.args[ 1 ] ).to.equal( editorInstance )
+
+      done()
+    })
+  })
+
+  it( 'displays an error if something went wrong', done => {
+    const error = new Error( 'Soemthing went wrong.' )
+    const consoleErrorStub = sandbox.stub( console, 'error' )
+
+    sandbox.stub( Editor, 'create' ).rejects( error )
+
+    wrapper = render(<ckeditor-element editor={ Editor } />, scratch)
+
+    setTimeout(() => {
+      consoleErrorStub.restore()
+
+      expect( consoleErrorStub.calledOnce ).to.be.true
+      expect( consoleErrorStub.firstCall.args[ 0 ] ).to.equal( error )
+
+      done()
+    })
+  })
+
+  it( 'should call "Editor#destroy()" method during unmounting the component', done => {
+    const editorInstance = new Editor()
+
+    sandbox.stub( Editor, 'create' ).resolves( editorInstance )
+    sandbox.stub( editorInstance, 'destroy' ).resolves()
+
+    wrapper = render(<ckeditor-element editor={ Editor } />, scratch)
+
+    setTimeout(() => {
+      wrapper.uninstall()
+      wrapper = null
+
+      expect( editorInstance.destroy.calledOnce ).to.be.true
+
+      done()
+    })
+  })
+
+  it( 'should set to "null" the "editor" property inside the component', done => {
+    const editorInstance = new Editor()
+
+    sandbox.stub( Editor, 'create' ).resolves( editorInstance )
+    sandbox.stub( editorInstance, 'destroy' ).resolves()
+
+    wrapper = render(<ckeditor-element editor={ Editor } />, scratch)
+
+    setTimeout(() => {
+      expect( wrapper.editor ).is.not.null
+
+      wrapper.uninstall()
+      // this should be comment here unlike ckeditor-react
+      // since it will check editor is null below.
+      // wrapper = null
+
+      setTimeout(() => {
+        expect( wrapper.editor ).is.null
+
+        done()
+      })
     })
   })
 })
