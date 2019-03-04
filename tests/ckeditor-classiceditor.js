@@ -18,7 +18,7 @@ function getAttributes(node) {
 }
 
 describe( 'CKEditor Component + ClassicEditor Build', () => {
-  let wrapper
+  let scratch, wrapper
 
   before(() => {
     scratch = document.createElement('div');
@@ -29,18 +29,26 @@ describe( 'CKEditor Component + ClassicEditor Build', () => {
     scratch.innerHTML = ''
   })
 
+  afterEach(() => {
+    if ( wrapper ) {
+      wrapper.uninstall()
+    }
+  })
+
   after(() => {
-    scratch.parentNode.removeChild(scratch)
+    if (scratch && scratch.parentNode) {
+      scratch.parentNode.removeChild(scratch)
+    }
     scratch = null
   })
 
   it( 'should initialize the ClassicEditor properly', done => {
-    render(<ckeditor-element editor={ ClassicEditor } />, scratch)
+    wrapper = render(<ckeditor-element editor={ ClassicEditor } />, scratch)
 
     setTimeout(() => {
 
-      let node = scratch.childNodes
-      expect( node.editor ).to.not.be.null
+      let wrapper = scratch.childNodes
+      expect( wrapper.editor ).to.not.be.null
 
       done()
     })

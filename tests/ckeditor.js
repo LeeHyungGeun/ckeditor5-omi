@@ -38,7 +38,7 @@ describe( 'CKEditor Component', () => {
 
   before(() => {
     scratch = document.createElement('div');
-    (document.body || document.documentElement).appendChild(scratch);
+    (document.body || document.documentElement).appendChild(scratch)
   })
 
   beforeEach(() => {
