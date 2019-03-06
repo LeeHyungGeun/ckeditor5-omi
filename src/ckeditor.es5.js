@@ -64,16 +64,14 @@ function (_WeElement) {
 
   }, {
     key: "render",
-    value: function render(props) {
+    value: function render() {
       var _this = this;
 
-      return Omi.createElement(
-        'div',
-        { style: { width: props.width + 'px', height: props.height + 'px' } },
-        Omi.createElement('canvas', { ref: function ref(e) {
-            _this.canvas = e;
-          } })
-      );
+      return Omi.createElement("div", {
+        rel: function rel(ref) {
+          return _this.domContainer = ref;
+        }
+      });
     }
   }, {
     key: "_initializeEditor",
