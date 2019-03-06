@@ -77,5 +77,8 @@
   "bugs": {
     "url": "https://github.com/LeeHyungGeun/ckeditor5-omi/issues"
   },
-  "homepage": "https://github.com/LeeHyungGeun/ckeditor5-omi"
+  "homepage": "https://github.com/LeeHyungGeun/ckeditor5-omi",
+  "alias": {
+    "omi": "omio"
+  }
 }
