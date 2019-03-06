@@ -5,6 +5,7 @@
 
 ## Getting started
 ```bash
+> npm i --g omi-cli
 > omi init myapp
 > npm i --save @ckeditor/ckeditor5-build-classic
 > npm i --save ckeditor5-omi
