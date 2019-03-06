@@ -1,6 +1,6 @@
 {
   "name": "ckeditor5-omi",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "src/ckeditor.js",
   "description": "Official Omi component for CKEditor 5 – the best browser-based rich text editor.",
   "keywords": [
